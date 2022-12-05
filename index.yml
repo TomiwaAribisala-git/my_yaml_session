@@ -1,75 +1,90 @@
+---
+
 # YAML: YAML Ain't Markup Language, widely used format for writing,
 # configuration files for different DevOps tools and applications. 
 
 # Use Cases: Docker Compose Files, Kubernetes Config Files, Ansible etc 
 
-# key:value pairs(basic YAML syntax)
-app:user-authentication
-port:900
-version:1.7
+# key: value pairs(basic YAML syntax), always note the indentation in your YAML file, it's important.
+app: user-authentication
+port: 9000
+version: 1.7
 
-# Objects 
+# Objects
 microservice:
-      port:9000
-      version:1.7
+ port: 9000
+ version: 1.7
 
 #Lists 
 microservice: 
-      -app:user
-            version:1.7
-            port:9000
-      -app:shopping-cart
-            version:[1.9,2.0,2.1]
-            port:4000
+ - app: user
+   version: 1.7
+   port: 9000
+ - app: shopping-cart
+   version: [1.9, 2.0, 2.1]
+   port: 4000
 microservices:
-      -user-authentication:true
-      -shopping-cart:app  
+ - user-authentication
+ - shopping-cart  
 
 #Booleans: true, false, on, off, yes, no.
-      deployed:true
-      deployed:false
+deployed: true
+deployed: false
 
 #Writing multi-line strings:
 multilineString: | 
-      this is a multiline string 
-      and some other stuff. 
+ this is a multiline string 
+ and some other stuff. 
 
 #Placeholders 
 metadata: 
-      name: {{ .values.Service.name }}
+ name: {{ .values.Service.name }}
 spec: 
-      selector:
-            app: {{ .values.Service.app }}
-      ports:
-            -protocols:TCP
-                  port: {{ .Values.service.port }}
-                  target: {{ .Values.service.transport }}
+ selector:
+  app: {{ .values.Service.app }}
+  ports:
+  - protocols: TCP
+    port: {{ .Values.service.port }}
+    target: {{ .Values.service.transport }}
 
-# Multiple YAML Files in a single YAML file 
+# Multiple YAML Files in a single YAML file
+---
 YAML File 1 
+...
 
 ---
-
 YAML File 2
+... 
 
 ---
-
 YAML File 3
-# Use a YAML validator to check in your file; instaall a YAML plugin/extension in your IDE. 
+...   
 
-#Example: Kubernetes Configuration File 
-apiVersion:v1
-kind:pod
+#Example of a YAML File: Kubernetes Configuration File 
+apiVersion: v1
+kind: pod
 metadata: 
-      name:nginx
-      labels:
-            app:nginx
+ name: nginx
+ labels:
+  app: nginx
 spec:
-      containers:
-            -name:nginx-container
-                  image:nginx 
-                  ports:
-                        -containerPort:80
-                  volumeMounts:
-                        -name:nginx-vol
-                              MountPath:/usr/nginx/html 
+ containers:
+ - name: nginx-container
+   image: nginx
+   ports:
+   - containerPort: 80
+   volumeMounts:
+   - name: nginx-vol
+     MountPath: /usr/nginx/html 
+ - name: sidecar-container 
+   image: nginx
+
+
+# Notes
+# Users should employ the use of the SPACE character for indentation, not the TAB character. 
+# All YAML Files should begin with three dashes (---) and end with an ellipsis (...).
+# Use YAML as a Config file.
+# Never store sensitive data in a YAML file.
+# Always use a YAML validator to check in your YAML file; https://www.onlineyamltools.com. 
+
+...
